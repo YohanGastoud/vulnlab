@@ -1,0 +1,39 @@
+{
+  "routes": [
+    {
+      "route": "/.env",
+      "method": "GET",
+      "html_output": "AKIAIOSFODNN7EXAMPLE,wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+    },
+    {
+      "route": "/_profiler",
+      "method": "GET",
+      "html_output": "<h1>_profiler</h1><pre><code>{{ content }}</code></pre>"
+    },
+    {
+      "route": "/.git/config",
+      "method": "GET",
+      "html_output": "hash - config"
+    },
+    {
+      "route": "/Dockerfile",
+      "method": "GET",
+      "html_output": "<h1>Dockerfile</h1><pre><code>{{ content }}</code></pre>"
+    },
+    {
+      "route": "/backup.zip",
+      "method": "GET",
+      "headers": {
+        "content-disposition": "attachment; filename=\"backup.zip\""
+      }
+    },
+    {
+      "route": "/sql.zip",
+      "method": "GET",
+      "headers": {
+        "content-disposition": "attachment; filename=\"backup.zip\""
+      }
+    }
+  ]
+}
+
