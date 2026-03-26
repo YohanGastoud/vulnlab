@@ -1,0 +1,24 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VulnLab</title>
+    <style>
+      body { font-family: system-ui, -apple-system, Segoe UI, Roboto, sans-serif; margin: 2rem; }
+      code { background: #f4f4f5; padding: 0.1rem 0.3rem; border-radius: 6px; }
+      ul { line-height: 1.7; }
+      a { text-decoration: none; }
+      a:hover { text-decoration: underline; }
+    </style>
+  </head>
+  <body>
+    {{INTRO}}
+    <h2>Route map</h2>
+    <ul>
+      {{ROUTES_LIST}}
+    </ul>
+    <a href="/__health?metric=test">__health</a>
+  </body>
+</html>
+

@@ -3,17 +3,22 @@
     {
       "route": "/.env",
       "method": "GET",
-      "html_output": "AKIAIOSFODNN7EXAMPLE,wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY"
+      "html_output": "AKIAIOSFODNN7EXAMPLE,wJalrXUtnFEMI/K7MDENG/bPxRfiCYEXAMPLEKEY \nDATABASE=TEST\nPASS=test"
     },
     {
-      "route": "/_profiler",
+      "route": "/.env.bak",
       "method": "GET",
-      "html_output": "<h1>_profiler</h1><pre><code>{{ content }}</code></pre>"
+      "json_output": "DATABASE=TEST"
+    },
+    {
+      "route": "/_profiler/empty/search/results",
+      "method": "GET",
+      "html_output": "<h1>symfony _profiler</h1><pre><code>{{ content }}</code></pre>"
     },
     {
       "route": "/.git/config",
       "method": "GET",
-      "html_output": "hash - config"
+      "html_output": "[credentials] hash - config"
     },
     {
       "route": "/Dockerfile",
@@ -21,17 +26,108 @@
       "html_output": "<h1>Dockerfile</h1><pre><code>{{ content }}</code></pre>"
     },
     {
+      "route": "/docker-compose.yml",
+      "method": "GET",
+      "html_output": "services: version: "
+    },
+    {
+      "route": "/directory/listing",
+      "method": "GET",
+      "html_output": "Index of /../"
+    },
+    {
+      "route": "/panels",
+      "method": "GET",
+      "html_output": "<title>OpenWrt  1.3.4 </title> ",
+      "headers": {
+        "Set_Cookie": "session_id=abc123def456"
+      }
+    },
+    {
+      "route": "/wp-login.php",
+      "method": "GET",
+      "html_output": "/wp-login.php?action=lostpassword\">Lost your password?</a>"
+    },
+    {
+      "route": "/sf/start",
+      "method": "GET",
+      "html_output": "SAP SuccessFactors sap-ui-core"
+    },
+    {
+      "route": "/pandora_console/attachment/pandora_chat.log.json.txt",
+      "method": "GET",
+      "html_output": "\"type\" \"id_user\" \"user_name\" \"text\""
+    },
+    {
+      "route": "/yyoa/createMysql.jsp",
+      "method": "GET",
+      "html_output": "root</br> *zdfdesfdfdsssssssssssssss4ssssssssssssss</br>"
+    },
+    {
+      "route": "/wp-login.php",
+      "method": "GET",
+      "html_output": "WordPress</title>"
+    },
+    {
+      "route": "/wp-config.php",
+      "method": "GET",
+      "html_output": "DBNAME PASSWORD DB_NAME DB_PASSWORD"
+    },
+    {
+      "route": "/users/sign_in",
+      "method": "GET",
+      "html_output": "GitLab https://about.gitlab.com"
+    },
+    {
+      "route": "/.aws/credentials",
+      "method": "GET",
+      "html_output": "aws_access_key_id=testtest"
+    },
+    {
+      "route": "/.htpasswd",
+      "method": "GET",
+      "html_output": "dsqdsq:$2y$dsqds\n\"password: test\""
+    },
+    {
+      "route": "/remote/login",
+      "method": "GET",
+      "html_output": "/remote/fgt_lang"
+    },
+    {
+      "route": "/post",
+      "method": "POST",
+      "json_output": {
+        "message": "Hello, world!"
+      }
+    },
+    {
+      "route": "/api/.env",
+      "method": "GET",
+      "json_output": {
+        "KEY": "KEY!"
+      }
+    },
+    {
+      "route": "/.ssh/id_rsa",
+      "method": "GET",
+      "html_output": "BEGIN PRIVATE KEY"
+    },
+    {
       "route": "/backup.zip",
       "method": "GET",
+      "html_output": "0x1f0x8b",
       "headers": {
-        "content-disposition": "attachment; filename=\"backup.zip\""
+        "content-disposition": "attachment; filename=\"backup.zip\"",
+        "content-type": "application/zip"
       }
     },
     {
       "route": "/sql.zip",
       "method": "GET",
+      "html_output": "0x1f0x8bINSERT INTO test",
       "headers": {
-        "content-disposition": "attachment; filename=\"backup.zip\""
+        "content-disposition": "attachment; filename=\"backup.zip\"",
+        "content-type": "application/zip"
       }
     }
   ]

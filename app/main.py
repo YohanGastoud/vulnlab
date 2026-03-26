@@ -19,10 +19,18 @@ def load_routes_config(config_path: Union[str, Path]) -> List[Dict[str, Any]]:
     elif isinstance(data, list):
         routes = data
     else:
-        raise ValueError("Invalid routes config format. Expected list or object with 'routes' key.")
+        raise ValueError(
+            "Invalid routes config format. Expected list or object with 'routes' key."
+        )
     if not isinstance(routes, list):
         raise ValueError("Invalid routes config format: 'routes' must be a list.")
     return routes
+
+
+def load_text_file(path: Union[str, Path]) -> str:
+    p = Path(path)
+    with p.open("r", encoding="utf-8") as f:
+        return f.read()
 
 
 def create_app() -> FastAPI:
@@ -37,15 +45,18 @@ def create_app() -> FastAPI:
         allow_headers=["*"],
     )
 
-    routes_file = os.environ.get("ROUTES_FILE", str(Path(__file__).parent / "routes.json"))
+    routes_file = os.environ.get(
+        "ROUTES_FILE", str(Path(__file__).parent / "routes.json")
+    )
     routes: List[Dict[str, Any]] = []
     try:
         routes = load_routes_config(routes_file)
-    except Exception as e:
+    except Exception:
         # Expose a simple endpoint to report configuration loading issues
         @app.get("/__config_error__")
         def config_error() -> Dict[str, str]:
             return {"error": f"Failed to load routes config: {e}"}
+
         return app
 
     def register_route(
@@ -55,7 +66,9 @@ def create_app() -> FastAPI:
         headers: Optional[Dict[str, str]] = None,
         html_output: Optional[str] = None,
         text_output: Optional[str] = None,
-        json_output: Optional[Union[Dict[str, Any], List[Any], str, int, float, bool, None]] = None,
+        json_output: Optional[
+            Union[Dict[str, Any], List[Any], str, int, float, bool, None]
+        ] = None,
         content_type: Optional[str] = None,
     ) -> None:
         norm_method = method.upper()
@@ -87,7 +100,12 @@ def create_app() -> FastAPI:
             media_type = content_type
 
         async def handler() -> Response:
-            return Response(content=body, status_code=status_code, media_type=media_type, headers=headers)
+            return Response(
+                content=body,
+                status_code=status_code,
+                media_type=media_type,
+                headers=headers,
+            )
 
         app.add_api_route(path, handler, methods=[norm_method])
 
@@ -123,19 +141,27 @@ def create_app() -> FastAPI:
         seen_paths = set()
         for r in app.routes:
             path = getattr(r, "path", None)
-            methods = getattr(r, "methods", set())
-            if not path or "GET" not in methods or path in seen_paths:
+            if not path or path in seen_paths:
                 continue
             seen_paths.add(path)
             links.append(f'<li><a href="{escape(path)}">{escape(path)}</a></li>')
 
         intro = root_html_output or "<h1>VulnLab Dynamic Router</h1>"
-        page = (
-            f"{intro}\n"
-            "<h2>Route map</h2>\n"
-            "<ul>\n"
-            f"{''.join(links)}\n"
-            "</ul>\n"
+        template_file = os.environ.get(
+            "INDEX_TEMPLATE_FILE",
+            str(Path(__file__).parent / "templates" / "index.html"),
+        )
+        try:
+            template = load_text_file(template_file)
+        except Exception as e:
+            template = (
+                "<h1>VulnLab</h1>"
+                f"<p>Failed to load index template: {escape(str(e))}</p>"
+                "<ul>{{ROUTES_LIST}}</ul>"
+            )
+
+        page = template.replace("{{INTRO}}", intro).replace(
+            "{{ROUTES_LIST}}", "".join(links)
         )
         return Response(content=page, media_type="text/html")
 
@@ -143,4 +169,3 @@ def create_app() -> FastAPI:
 
 
 app = create_app()
-
